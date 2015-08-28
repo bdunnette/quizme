@@ -7,7 +7,7 @@
  * # omeka
  * Service in the deckhandAngularApp.
  */
-angular.module('deckhandAngularApp')
+angular.module('quizme')
   .service('Omeka', ['$http', '$q', function(http, q) {
     // AngularJS will instantiate a singleton by calling "new" on this function
     return {
