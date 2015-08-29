@@ -1,7 +1,7 @@
 <ion-view view-title="Collections">
   <ion-content>
     <ion-list>
-      <ion-item ng-repeat="collection in collections" href="#/app/playlists/{{collection.id}}">
+      <ion-item ng-repeat="collection in collections" ng-show="collection.items.count" href="#/app/collections/{{collection.id}}">
         {{collection.element_texts[0].text}}
       </ion-item>
     </ion-list>

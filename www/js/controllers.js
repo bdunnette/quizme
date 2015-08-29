@@ -41,11 +41,23 @@ angular.module('quizme.controllers', [])
   };
 })
 
-.controller('PlaylistsCtrl', function($scope, Omeka) {
+.controller('CollectionsCtrl', function($scope, Omeka) {
   var promise = Omeka.getCollections();
   promise.then(function(collections) {
     $scope.collections = collections.data;
+    console.log($scope.collections);
   });
 })
 
-.controller('PlaylistCtrl', function($scope, $stateParams) {});
+.controller('CollectionCtrl', function($scope, $stateParams, Omeka) {
+  var collection = Omeka.getCollection($stateParams.collectionId);
+  collection.then(function(collectionInfo) {
+    $scope.collection = collectionInfo.data;
+  });
+  
+  var items = Omeka.getCollectionItems($stateParams.collectionId);
+  items.then(function(itemInfo) {
+    $scope.items = itemInfo.data;
+    console.log($scope.items);
+  });
+});
