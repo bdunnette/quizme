@@ -1,9 +1,18 @@
 <ion-view view-title="{{item.element_texts[0].text}}">
   <ion-content>
-    <ion-list>
-      <ion-item ng-repeat="file in files" href="#">
-        <img ng-src="{{file.file_urls.thumbnail}}">{{file.element_texts[0].text}}
-      </ion-item>
-    </ion-list>
+    <td-cards>
+      <td-card id="td-card" ng-repeat="file in files" on-destroy="cardDestroyed($index)"
+              on-swipe-left="cardSwipedLeft($index)" on-swipe-right="cardSwipedRight($index)"
+              on-partial-swipe="cardPartialSwipe(amt)">
+                  <div class="title">
+                      {{file.element_texts[0].text}}
+                  </div>
+                  <div class="image">
+                      <div class="no-text overlayBox"><div class="noBox boxed">Trash</div></div>
+                      <img ng-src="{{file.file_urls.thumbnail}}">
+                      <div class="yes-text overlayBox"><div class="yesBox boxed" id="centerMe">Save</div></div>
+                  </div>
+              </td-card>
+    </td-cards>
   </ion-content>
 </ion-view>

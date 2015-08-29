@@ -68,10 +68,23 @@ angular.module('quizme.controllers', [])
     $scope.item = itemInfo.data;
     console.log($scope.item);
   });
-  
+
   var files = Omeka.getItemFiles($stateParams.itemId);
   files.then(function (fileInfo) {
     $scope.files = fileInfo.data;
     console.log($scope.files);
   });
+
+  $scope.cardSwipedLeft = function(index) {
+        console.log('Left swipe');
+    }
+ 
+    $scope.cardSwipedRight = function(index) {
+        console.log('Right swipe');
+    }
+ 
+    $scope.cardDestroyed = function(index) {
+        $scope.files.splice(index, 1);
+        console.log('Card removed');
+    }
 });
