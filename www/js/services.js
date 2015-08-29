@@ -11,50 +11,39 @@ angular.module('quizme')
   .service('Omeka', ['$http', '$q', '$rootScope', function (http, q, rootScope) {
     // AngularJS will instantiate a singleton by calling "new" on this function
     return {
-      getCollections: function () {
-        var collections = q.defer();
-        http.get(rootScope.omeka.apiUrl + 'collections').then(function (data) {
-          collections.resolve(data);
+      getData: function (omekaObject) {
+        var omekaData = q.defer();
+        var objectUrl = rootScope.omeka.apiUrl + 'collections';
+        if (omekaObject) {
+          if (omekaObject.hasOwnProperty('url')) {
+            objectUrl = omekaObject.url;
+          }
+          else if (omekaObject.hasOwnProperty('type')) {
+            switch (omekaObject.type) {
+              case 'collection':
+                objectUrl = rootScope.omeka.apiUrl + 'collections/' + omekaObject.id;
+                break;
+              case 'collectionItems':
+                objectUrl = rootScope.omeka.apiUrl + 'items?collection=' + omekaObject.id;
+                break;
+              case 'item':
+                objectUrl = rootScope.omeka.apiUrl + 'items/' + omekaObject.id;
+                break;
+              case 'itemFiles':
+                objectUrl = rootScope.omeka.apiUrl + 'files?item=' + omekaObject.id;
+                break;
+              case 'collections':
+              default:
+                objectUrl = rootScope.omeka.apiUrl + 'collections';
+            }
+          }
+        }
+        http.get(objectUrl).then(function (data) {
+          omekaData.resolve(data);
         }, function (err) {
-          collections.reject(err);
+          omekaData.reject(err);
         });
-        return collections.promise;
-      },
-      getCollection: function (collectionId) {
-        var collection = q.defer();
-        http.get(rootScope.omeka.apiUrl + 'collections/' + collectionId).then(function (data) {
-          collection.resolve(data);
-        }, function (err) {
-          collection.reject(err);
-        });
-        return collection.promise;
-      },
-      getCollectionItems: function (collectionId) {
-        var items = q.defer();
-        http.get(rootScope.omeka.apiUrl + 'items?collection=' + collectionId).then(function (data) {
-          items.resolve(data);
-        }, function (err) {
-          items.reject(err);
-        });
-        return items.promise;
-      },
-      getItem: function (itemId) {
-        var items = q.defer();
-        http.get(rootScope.omeka.apiUrl + 'items/' + itemId).then(function (data) {
-          items.resolve(data);
-        }, function (err) {
-          items.reject(err);
-        });
-        return items.promise;
-      },
-      getItemFiles: function (itemId) {
-        var files = q.defer();
-        http.get(rootScope.omeka.apiUrl + 'files?item=' + itemId).then(function (data) {
-          files.resolve(data);
-        }, function (err) {
-          files.reject(err);
-        });
-        return files.promise;
+        return omekaData.promise;
       }
     };
   }])

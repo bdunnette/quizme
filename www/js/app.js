@@ -32,7 +32,7 @@ angular.module('quizme', ['ionic', 'ionic.service.core', 'ionic.contrib.ui.tinde
     url: '/app',
     abstract: true,
     templateUrl: 'templates/menu.html',
-    controller: 'AppCtrl'
+    controller: 'AppController'
   })
 
   .state('app.search', {
@@ -58,7 +58,7 @@ angular.module('quizme', ['ionic', 'ionic.service.core', 'ionic.contrib.ui.tinde
     views: {
       'menuContent': {
         templateUrl: 'templates/collections.html',
-        controller: 'CollectionsCtrl'
+        controller: 'CollectionsController'
       }
     }
   })
@@ -68,7 +68,7 @@ angular.module('quizme', ['ionic', 'ionic.service.core', 'ionic.contrib.ui.tinde
     views: {
       'menuContent': {
         templateUrl: 'templates/collection.html',
-        controller: 'CollectionCtrl'
+        controller: 'CollectionController'
       }
     }
   })
@@ -78,7 +78,7 @@ angular.module('quizme', ['ionic', 'ionic.service.core', 'ionic.contrib.ui.tinde
     views: {
       'menuContent': {
         templateUrl: 'templates/item.html',
-        controller: 'ItemCtrl'
+        controller: 'ItemController'
       }
     }
   });

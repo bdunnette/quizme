@@ -1,6 +1,6 @@
 angular.module('quizme.controllers', [])
 
-.controller('AppCtrl', function ($scope, $ionicModal, $timeout) {
+.controller('AppController', function ($scope, $ionicModal, $timeout) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -41,50 +41,62 @@ angular.module('quizme.controllers', [])
   };
 })
 
-.controller('CollectionsCtrl', function ($scope, Omeka) {
-  var promise = Omeka.getCollections();
+.controller('CollectionsController', function ($scope, Omeka) {
+  var promise = Omeka.getData();
   promise.then(function (collections) {
     $scope.collections = collections.data;
     console.log($scope.collections);
   });
 })
 
-.controller('CollectionCtrl', function ($scope, $stateParams, Omeka) {
-  var collection = Omeka.getCollection($stateParams.collectionId);
+.controller('CollectionController', function ($scope, $stateParams, Omeka) {
+  var collection = Omeka.getData({
+    type: 'collection',
+    id: $stateParams.collectionId
+  });
   collection.then(function (collectionInfo) {
     $scope.collection = collectionInfo.data;
   });
 
-  var items = Omeka.getCollectionItems($stateParams.collectionId);
+  var items = Omeka.getData({
+    type: 'collectionItems',
+    id: $stateParams.collectionId
+  });
   items.then(function (itemInfo) {
     $scope.items = itemInfo.data;
     console.log($scope.items);
   });
 })
 
-.controller('ItemCtrl', function ($scope, $stateParams, Omeka) {
-  var item = Omeka.getItem($stateParams.itemId);
+.controller('ItemController', function ($scope, $stateParams, Omeka) {
+  var item = Omeka.getData({
+    type: 'item',
+    id: $stateParams.itemId
+  });
   item.then(function (itemInfo) {
     $scope.item = itemInfo.data;
     console.log($scope.item);
   });
 
-  var files = Omeka.getItemFiles($stateParams.itemId);
+  var files = Omeka.getData({
+    type: 'itemFiles',
+    id: $stateParams.itemId
+  });
   files.then(function (fileInfo) {
     $scope.files = fileInfo.data;
     console.log($scope.files);
   });
 
-  $scope.cardSwipedLeft = function(index) {
-        console.log('Left swipe');
-    }
- 
-    $scope.cardSwipedRight = function(index) {
-        console.log('Right swipe');
-    }
- 
-    $scope.cardDestroyed = function(index) {
-        $scope.files.splice(index, 1);
-        console.log('Card removed');
-    }
+  $scope.cardSwipedLeft = function (index) {
+    console.log('Left swipe');
+  }
+
+  $scope.cardSwipedRight = function (index) {
+    console.log('Right swipe');
+  }
+
+  $scope.cardDestroyed = function (index) {
+    $scope.files.splice(index, 1);
+    console.log('Card removed');
+  }
 });
