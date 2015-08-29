@@ -1,0 +1,9 @@
+<ion-view view-title="{{item.element_texts[0].text}}">
+  <ion-content>
+    <ion-list>
+      <ion-item ng-repeat="file in files" href="#">
+        <img ng-src="{{file.file_urls.thumbnail}}">{{file.element_texts[0].text}}
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>
